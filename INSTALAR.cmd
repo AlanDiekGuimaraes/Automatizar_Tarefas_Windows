@@ -10,5 +10,5 @@ if %errorlevel% neq 0 (
 )
 
 rem Executa o script PowerShell no mesmo diretório, como administrador
-powershell.exe -ExecutionPolicy Bypass -File "%~dp0Instalar_Programas_com_winget.ps1"
+powershell.exe -ExecutionPolicy Bypass -File "%~dp0Automação.ps1"
 pause
