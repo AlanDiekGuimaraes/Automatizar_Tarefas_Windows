@@ -5,72 +5,63 @@ function Ativar_Windows_Office {
     try {
         Write-Host "Ativando o Windows Office..."
         irm https://get.activated.win | iex # Ativar Windows Office	
-    }
-    catch {
-        Write-Host "Ocorreu um erro ao ativar o Windows Office."
-    }
+    } catch { Write-Host "Ocorreu um erro ao ativar o Windows Office." }
     try {
         Write-Host "Tentando novamente: Ativando o Windows Office..."
         irm https://massgrave.dev/get | iex # Ativar Windows Office
-    }
-    catch {
-        Write-Host "Ocorreu um erro ao ativar o Windows Office na opção 2."
-    }
+    } catch { Write-Host "Ocorreu um erro ao ativar o Windows Office na opção 2." }
 }
 
 function Ativar_Winrar {
     try {
         Write-Host "Ativando o WinRAR..."
         iwr -useb https://naeembolchhi.github.io/WinRAR-Activator/WRA.ps1 | iex
-    }
-    catch {
-        Write-Host "Ocorreu um erro ao ativar o WinRAR."
-    }
-    
+    } catch { Write-Host "Ocorreu um erro ao ativar o WinRAR." }
 }
 
-# Função para instalar programas
-function Instalar_Programas {
+
+function Instalar_Programas {       # Função para instalar programas
     $novaLinha = "`n"
     $parametrosInstalacao = "--accept-package-agreements --accept-source-agreements"
 
     $programas = @(
-        # PROGRAMAS A SEREM INSTALADOS
         @{ Nome = "Google Chrome"; Comando = "winget install Google.Chrome $parametrosInstalacao" },
         @{ Nome = "Mozilla Firefox"; Comando = "winget install Mozilla.Firefox $parametrosInstalacao" },
         @{ Nome = "WinRAR"; Comando = "winget install RARLab.WinRAR $parametrosInstalacao" },
         @{ Nome = "PotPlayer"; Comando = "winget install Daum.PotPlayer $parametrosInstalacao" },
-        @{ Nome = "PowerToys"; Comando = "winget install Microsoft.PowerToys $parametrosInstalacao" },
-        @{ Nome = "UltraISO Premium"; Comando = "winget install EZBSystems.UltraISO $parametrosInstalacao" },
-        @{ Nome = "Microsoft Visual Studio Code"; Comando = "winget install Microsoft.VisualStudioCode $parametrosInstalacao" },
+        @{ Nome = "TeamViewer"; Comando = "winget install TeamViewer.TeamViewer $parametrosInstalacao" },
         @{ Nome = "Microsoft 365"; Comando = "winget install Microsoft.Office $parametrosInstalacao" },
         @{ Nome = "Internet Download Manager"; Comando = "winget install Tonec.InternetDownloadManager $parametrosInstalacao" },
-        @{ Nome = "Steam"; Comando = "winget install Valve.Steam $parametrosInstalacao" },
-        @{ Nome = "Google Drive"; Comando = "winget install Google.GoogleDrive $parametrosInstalacao" },
+        
+       
+       
         # @{ Nome = ""; Comando = "winget install $parametrosInstalacao" },
-        # @{ Nome = ""; Comando = "winget install $parametrosInstalacao" },
-        # @{ Nome = ""; Comando = "winget install $parametrosInstalacao" },
-        # @{ Nome = ""; Comando = "winget install $parametrosInstalacao" },
-        # @{ Nome = ""; Comando = "winget install $parametrosInstalacao" },
-        # @{ Nome = ""; Comando = "winget install $parametrosInstalacao" },
-        # @{ Nome = ""; Comando = "winget install $parametrosInstalacao" },
-        # @{ Nome = ""; Comando = "winget install $parametrosInstalacao" },
-        # @{ Nome = ""; Comando = "winget install $parametrosInstalacao" },
-        # @{ Nome = ""; Comando = "winget install $parametrosInstalacao" },
-        # @{ Nome = ""; Comando = "winget install $parametrosInstalacao" },
-        # @{ Nome = ""; Comando = "winget install $parametrosInstalacao" },
-        # @{ Nome = ""; Comando = "winget install $parametrosInstalacao" },
-        # @{ Nome = ""; Comando = "winget install $parametrosInstalacao" },
-        kjm
 
-        # @{ Nome = "Acrobat Pro (64-bit)"; Comando = "winget install Adobe.Acrobat.Pro $parametrosInstalacao" },
-        # @{ Nome = "Adobe Acrobat Reader DC (64-bit)"; Comando = "winget install Adobe.Acrobat.Reader.64-bit $parametrosInstalacao" },
-        # @{ Nome = "Adobe Creative Cloud"; Comando = "winget install Adobe.CreativeCloud $parametrosInstalacao" },
-        # @{ Nome = "TeamViewer"; Comando = "winget install TeamViewer.TeamViewer $parametrosInstalacao" },
+
+
+
+        # @{ Nome = "Gmail Desktop"; Comando = "winget install timche.gmail-desktop $parametrosInstalacao" },
+        # @{ Nome = "Transmission"; Comando = "winget install Transmission.Transmission $parametrosInstalacao" },
+        # @{ Nome = "Skype"; Comando = "winget install Microsoft.Skype $parametrosInstalacao" },
+        # @{ Nome = "Rufus"; Comando = "winget install Rufus.Rufus $parametrosInstalacao" },
+        # @{ Nome = "qBittorrent"; Comando = "winget install qBittorrent.qBittorrent $parametrosInstalacao" },
+        # @{ Nome = "NVIDIA GeForce Experience"; Comando = "winget install Nvidia.GeForceExperience $parametrosInstalacao" },
+        # @{ Nome = "Notion"; Comando = "winget install Notion.Notion $parametrosInstalacao" },
+        # @{ Nome = "Microsoft OneDrive"; Comando = "winget install Microsoft.OneDrive $parametrosInstalacao" },
+        # @{ Nome = "Git"; Comando = "winget install Git.Git $parametrosInstalacao" },
+        # @{ Nome = "GitHub Desktop"; Comando = "winget install GitHub.GitHubDesktop $parametrosInstalacao" },
+        # @{ Nome = "Deluge BitTorrent"; Comando = "winget install DelugeTeam.Deluge $parametrosInstalacao" },
+        # @{ Nome = "CCleaner Professional Trial"; Comando = "winget install Piriform.CCleaner.ProTrial $parametrosInstalacao" },
+        
+
+        
+        @{ Nome = "Adobe Acrobat Reader DC (64-bit)"; Comando = "winget install Adobe.Acrobat.Reader.64-bit $parametrosInstalacao" }
+        
+        
         # @{ Nome = "AnyDesk"; Comando = "winget install AnyDeskSoftwareGmbH.AnyDesk $parametrosInstalacao" },
         # @{ Nome = "K-Lite Mega"; Comando = "winget install CodecGuide.K-LiteCodecPack.Mega $parametrosInstalacao" },
         # @{ Nome = "Duplicate Cleaner Pro 5"; Comando = "winget install DigitalVolcanoSoftware.DuplicateCleaner.5" },
-        @{ Nome = "DirectX End-User Runtime Web"; Comando = "winget install Microsoft.DirectX $parametrosInstalacao" }
+        
     )
 
     $totalProgramas = $programas.Count
@@ -84,8 +75,33 @@ function Instalar_Programas {
     }
 }
 
-# Função para instalar aplicativos essenciais
-function Instalar_Aplicativos_Essenciais {
+function Meus_Programas {
+
+    $novaLinha = "`n"
+    $parametrosInstalacao = "--accept-package-agreements --accept-source-agreements"
+
+    $programas = @(
+        @{ Nome = "UltraISO Premium"; Comando = "winget install EZBSystems.UltraISO $parametrosInstalacao" },
+        @{ Nome = "Microsoft Visual Studio Code"; Comando = "winget install Microsoft.VisualStudioCode $parametrosInstalacao" },
+        @{ Nome = "Steam"; Comando = "winget install Valve.Steam $parametrosInstalacao" },
+        @{ Nome = "Google Drive"; Comando = "winget install Google.GoogleDrive $parametrosInstalacao" },
+        @{ Nome = "Acrobat Pro (64-bit)"; Comando = "winget install Adobe.Acrobat.Pro $parametrosInstalacao" }
+        # @{ Nome = "Adobe Creative Cloud"; Comando = "winget install Adobe.CreativeCloud $parametrosInstalacao" },
+    )
+
+    $totalProgramas = $programas.Count
+
+    for ($i = 0; $i -lt $totalProgramas; $i++) {
+        $programaAtual = $programas[$i]
+        $contador = "{0:000}/{1:000}" -f ($i + 1), $totalProgramas
+        Write-Host "$contador - Instalando o aplicativo $($programaAtual.Nome)".ToUpper()
+        Invoke-Expression $programaAtual.Comando
+        Write-Host $novaLinha
+    }
+}
+
+function Instalar_Aplicativos_Essenciais {      # Função para instalar aplicativos essenciais
+    
     $novaLinha = "`n"
     $parametrosInstalacao = "--accept-package-agreements --accept-source-agreements"
 
@@ -93,6 +109,7 @@ function Instalar_Aplicativos_Essenciais {
         # APLICATIVOS ESSENCIAIS A SEREM INSTALADOS
         @{ Nome = "Calculadora"; Comando = "winget install calculator $parametrosInstalacao" },
         @{ Nome = "PowerShell"; Comando = "winget install Microsoft.PowerShell $parametrosInstalacao" },
+        @{ Nome = "PowerToys"; Comando = "winget install Microsoft.PowerToys $parametrosInstalacao" },
         @{ Nome = "Microsoft Visual C++ 2005 x64"; Comando = "winget install Microsoft.VCRedist.2005.x64 $parametrosInstalacao" },
         @{ Nome = "Microsoft Visual C++ 2005 x86"; Comando = "winget install Microsoft.VCRedist.2005.x86 $parametrosInstalacao" },
         @{ Nome = "Microsoft Visual C++ 2008 x64"; Comando = "winget install Microsoft.VCRedist.2008.x64 $parametrosInstalacao" },
@@ -105,6 +122,7 @@ function Instalar_Aplicativos_Essenciais {
         @{ Nome = "Microsoft Visual C++ 2013 x86"; Comando = "winget install Microsoft.VCRedist.2013.x86 $parametrosInstalacao" },
         @{ Nome = "Microsoft Visual C++ 2015-2022 x64"; Comando = "winget install Microsoft.VCRedist.2015+.x64 $parametrosInstalacao" },
         @{ Nome = "Microsoft Visual C++ 2015-2022 x86"; Comando = "winget install Microsoft.VCRedist.2015+.x86 $parametrosInstalacao" },
+        @{ Nome = "DirectX End-User Runtime Web"; Comando = "winget install Microsoft.DirectX $parametrosInstalacao" },
         @{ Nome = "Java Runtime Environment"; Comando = "winget install Oracle.JavaRuntimeEnvironment $parametrosInstalacao" }
     )
 
@@ -119,8 +137,8 @@ function Instalar_Aplicativos_Essenciais {
     }
 }
 
-# Função para desinstalar BLOATWARES
-function Desinstalar_BLOATWARES {
+function Desinstalar_BLOATWARES {   # Função para desinstalar BLOATWARES
+    
     # Define uma nova linha
     $novaLinha = "`n"
     $parametrosDesistalacao = "--accept-source-agreements --silent"
@@ -132,6 +150,7 @@ function Desinstalar_BLOATWARES {
         # @{ Nome = "OneDrive"; Comando = "winget uninstall Microsoft.OneDrive $parametrosDesistalacao" },
         # @{ Nome = "Calculadora"; Comando = "winget uninstall Microsoft.WindowsCalculator_8wekyb3d8bbwe $parametrosDesistalacao" },
         # @{ Nome = "Microsoft Sticky Notes"; Comando = "winget uninstall Microsoft.MicrosoftStickyNotes_8wekyb3d8bbwe $parametrosDesistalacao" },
+
         @{ Nome = "Email e Calendário do Windows"; Comando = "winget uninstall microsoft.windowscommunicationsapps_8wekyb3d8bbwe $parametrosDesistalacao" },
         @{ Nome = "Microsoft 3D Builder"; Comando = "winget uninstall Microsoft.3DBuilder_8wekyb3d8bbwe $parametrosDesistalaca" },
         @{ Nome = "Microsoft Outlook"; Comando = "winget uninstall Microsoft.OutlookForWindows_8wekyb3d8bbwe $parametrosDesistalacao" },
@@ -170,7 +189,7 @@ function Desinstalar_BLOATWARES {
         @{ Nome = "Groove Music"; Comando = "winget uninstall Microsoft.ZuneMusic_8wekyb3d8bbwe $parametrosDesistalacao" },
         @{ Nome = "Copilot"; Comando = "winget uninstall MSIX\Microsoft.Copilot_1.1.8.0_neutral__8wekyb3d8bbwe $parametrosDesistalacao" },
         @{ Nome = "Paint"; Comando = "winget uninstall MSIX\Microsoft.Paint_11.2408.30.0_x64__8wekyb3d8bbwe $parametrosDesistalacao" }
-        @{ Nome = "Microsoft Teams classic"; Comando = "winget uninstall Microsoft.Teams.Classic $parametrosDesistalacao" },
+        @{ Nome = "Microsoft Teams classic"; Comando = "winget uninstall Microsoft.Teams.Classic $parametrosDesistalacao" }
         
         
         
@@ -191,16 +210,18 @@ function Desinstalar_BLOATWARES {
         Write-Host $novaLinha
     }
 }
-# Função para exibir o menu e executar a escolha do usuário
-function Exibir_Menu {
+
+function Exibir_Menu {   # Função para exibir o menu e executar a escolha do usuário
+   
     $menuOpcoes = @{
         1 = "Sair"
-        2 = "Instalar Programas"
-        3 = "Instalar Aplicativos Essenciais"
-        4 = "Desinstalar Bloatwares"
-        5 = "Ativar IDM"
-        6 = "Ativar Windows e Office"
-        7 = "Ativar WinRAR"        
+        2 = "Programas: Formatação pessoal"
+        3 = "Instalar Programas Essenciais"
+        4 = "Instalar Aplicativos Essenciais"
+        5 = "Desinstalar Bloatwares"
+        6 = "Ativar IDM"
+        7 = "Ativar Windows e Office"
+        8 = "Ativar WinRAR"        
         
     }
 
@@ -222,35 +243,19 @@ function Exibir_Menu {
 
         # Valida a escolha do usuário
         switch ($opcaoEscolhida) {
-            1 {
-                Write-Host "Saindo..."
-                break
-            }
-            2 {
-                Instalar_Programas
-            }
-            3 {
-                Instalar_Aplicativos_Essenciais
-            }
-            4 {
-                Desinstalar_BLOATWARES
-            }
-            5 {
-                AtivarIDM
-            }
-            6 {
-                Ativar_Windows_Office
-            }
-            7 {
-                Ativar_Winrar
-            }            
-            default {
-                Write-Host "Opção inválida, tente novamente."
-                Start-Sleep -Seconds 2
-            }
+            1 {Write-Host "Saindo..." break }
+            2 {Meus_Programas}
+            3 {Instalar_Programas }
+            4 {Instalar_Aplicativos_Essenciais}
+            5 {Desinstalar_BLOATWARES}
+            6 {AtivarIDM}
+            7 {Ativar_Windows_Office}
+            8 {Ativar_Winrar} 
+
+            default {Write-Host "Opção inválida, tente novamente."
+                Start-Sleep -Seconds 2}
         }
     }
 }
-    
-# Chamando a função para exibir o menu
-Exibir_Menu
+
+Exibir_Menu  # Chamando a função para exibir o menu
