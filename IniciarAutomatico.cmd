@@ -5,10 +5,15 @@ rem Verifica se o script está sendo executado como administrador
 net session >nul 2>&1
 if %errorlevel% neq 0 (
     echo Solicitando permissões de administrador...
-    powershell -Command "Start-Process '%~f0' -Verb RunAs"
+    powershell -Command "Start-Process cmd -ArgumentList '/c \"%~f0\"' -Verb RunAs"
     exit /b
 )
 
 rem Executa o script PowerShell no mesmo diretório, como administrador
-powershell.exe -ExecutionPolicy Bypass -File "%~dp0Automação.ps1"
+pwsh.exe -ExecutionPolicy Bypass -File "%~dp0Automacao.ps1"
+
+
+
 pause
+
+
