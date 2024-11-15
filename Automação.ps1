@@ -97,7 +97,7 @@ function Abrir_com_Privilegios_de_Administrador {
         Write-Host "Erro durante a execução com privilégios de administrador: $_" -ForegroundColor Red
     }
 }
-function Instalar_Programas {
+function Instalar_Programas_Essenciais { # Lista de programas essenciais após a formatação
     $novaLinha = "`n"
 
     $programas = @(
@@ -119,13 +119,13 @@ function Instalar_Programas {
     for ($i = 0; $i -lt $totalProgramas; $i++) {
         $programaAtual = $programas[$i]
         $contador = "{0:000}/{1:000}" -f ($i + 1), $totalProgramas
-        Write-Host "$contador - Instalando o aplicativo $($programaAtual.Nome)".ToUpper()
+        Write-Host ("$contador - Instalando o aplicativo $($programaAtual.Nome)".ToUpper()) -ForegroundColor green
         Invoke-Expression $programaAtual.Comando
         Write-Host $novaLinha
     }
     Pause 
 }
-function Meus_Programas { # Lista Pessoal
+function Programas_Formatação_Pessoal { # Lista Pessoal: Programas que sempre instalo no meu ambiente apos a formatação
 
     $novaLinha = "`n"
 
@@ -150,7 +150,7 @@ function Meus_Programas { # Lista Pessoal
     for ($i = 0; $i -lt $totalProgramas; $i++) {
         $programaAtual = $programas[$i]
         $contador = "{0:000}/{1:000}" -f ($i + 1), $totalProgramas
-        Write-Host "$contador - Instalando o aplicativo $($programaAtual.Nome)".ToUpper()
+        Write-Host ("$contador - Instalando o aplicativo $($programaAtual.Nome)".ToUpper()) -ForegroundColor green
         Invoke-Expression $programaAtual.Comando
         Write-Host $novaLinha
     }
@@ -187,13 +187,13 @@ function Instalar_Aplicativos_Essenciais {      # Função para instalar aplicat
     for ($i = 0; $i -lt $totalAplicativos; $i++) {
         $aplicativoAtual = $aplicativosEssenciais[$i]
         $contador = "{0:000}/{1:000}" -f ($i + 1), $totalAplicativos
-        Write-Host "$contador - Instalando o aplicativo $($aplicativoAtual.Nome)".ToUpper()
+        Write-Host ("$contador - Instalando o aplicativo $($aplicativoAtual.Nome)".ToUpper()) -ForegroundColor green
         Invoke-Expression $aplicativoAtual.Comando
         Write-Host $novaLinha
     }
     Pause 
 }
-function Desinstalar_BLOATWARES {   # Função para desinstalar BLOATWARES
+function Desinstalar_BLOATWARES {   # Função para desinstalar BLOATWARES 
     
     # Define uma nova linha
     $novaLinha = "`n"
@@ -247,7 +247,7 @@ function Desinstalar_BLOATWARES {   # Função para desinstalar BLOATWARES
     for ($i = 0; $i -lt $totalBloatwares; $i++) {
         $bloatwareAtual = $bloatwares[$i]
         $contador = "{0:000}/{1:000}" -f ($i + 1), $totalBloatwares
-        Write-Host "$contador - Desinstalando o aplicativo $($bloatwareAtual.Nome)".ToUpper()
+        Write-Host ("$contador - Desinstalando o aplicativo $($bloatwareAtual.Nome)".ToUpper()) -ForegroundColor green
         Invoke-Expression $bloatwareAtual.Comando
         Write-Host $novaLinha
     }
@@ -358,8 +358,8 @@ function Exibir_Menu {
             switch ($opcaoEscolhida) {
                 0 { Write-Host "Saindo..." -ForegroundColor Green; break }
                 1 { Instalar_Drivers }
-                2 { Meus_Programas }
-                3 { Instalar_Programas }
+                2 { Programas_Formatação_Pessoal }
+                3 { Instalar_Programas_Essenciais }
                 4 { Instalar_Aplicativos_Essenciais }
                 5 { Desinstalar_BLOATWARES }
                 6 { AtivarIDM }
