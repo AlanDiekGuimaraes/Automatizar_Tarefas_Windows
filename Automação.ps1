@@ -1,5 +1,6 @@
 function Ativar_Internet_Download_Manager_IDM {
     iex(irm is.gd/idm_reset) # Ativar o internet Download Manager IDM Disponivel em https://github.com/lstprjct/IDM-Activation-Script
+    Pause 
 }
 function Ativar_Windows_Office {
     #Ativa o Windows e Office Disponiveis em https://github.com/massgravel/Microsoft-Activation-Scripts
@@ -22,12 +23,14 @@ function Ativar_Windows_Office {
     } else {
         Write-Host "Ativação concluída com sucesso na primeira tentativa."
     }
+    Pause 
 }
 function Ativar_Winrar {
     try { #  Ativa o WinRAR com o script disponivel em https://github.com/naeembolchhi/WinRAR-Activator
         Write-Host "Ativando o WinRAR..." 
         iwr -useb https://naeembolchhi.github.io/WinRAR-Activator/WRA.ps1 | iex
     } catch { Write-Host "Ocorreu um erro ao ativar o WinRAR." }
+    Pause 
 }
 function Preparar_Ambiente { # Função para preparar o ambiente
     try {
@@ -120,6 +123,7 @@ function Instalar_Programas {
         Invoke-Expression $programaAtual.Comando
         Write-Host $novaLinha
     }
+    Pause 
 }
 function Meus_Programas { # Lista Pessoal
 
@@ -150,6 +154,7 @@ function Meus_Programas { # Lista Pessoal
         Invoke-Expression $programaAtual.Comando
         Write-Host $novaLinha
     }
+    Pause 
 }
 function Instalar_Aplicativos_Essenciais {      # Função para instalar aplicativos essenciais
     
@@ -186,6 +191,7 @@ function Instalar_Aplicativos_Essenciais {      # Função para instalar aplicat
         Invoke-Expression $aplicativoAtual.Comando
         Write-Host $novaLinha
     }
+    Pause 
 }
 function Desinstalar_BLOATWARES {   # Função para desinstalar BLOATWARES
     
@@ -245,17 +251,40 @@ function Desinstalar_BLOATWARES {   # Função para desinstalar BLOATWARES
         Invoke-Expression $bloatwareAtual.Comando
         Write-Host $novaLinha
     }
+    Pause 
 }
-function Atualizar_Drivers_Programas { 
-    # Função a ser melhorada
-    Write-Host "Verificando para atualizar todos os programas e drivers..." -ForegroundColor Green
-    winget upgrade --all  --accept-package-agreements --accept-source-agreements --silent
-    Install-WindowsUpdate -MicrosoftUpdate -AcceptAll -AutoReboot
-    
+
+function Atualizar_Drivers_Programas { # Função para atualizar drivers e programas
+    try {
+        Write-Host "Iniciando a atualização de programas..." -ForegroundColor Cyan
+        winget upgrade --all
+        Write-Host "Atualização de programas concluída com sucesso." -ForegroundColor Green
+    } catch {
+        Write-Host "Erro ao atualizar programas: $_" -ForegroundColor Red
+    }
+
+    try {
+        Write-Host "Iniciando a verificação de drivers..." -ForegroundColor Cyan
+        pnputil /scan-devices
+        Write-Host "Verificação de drivers concluída com sucesso." -ForegroundColor Green
+    } catch {
+        Write-Host "Erro ao verificar drivers: $_" -ForegroundColor Red
+    }
+    Pause 
 }
-function Instalar_Drivers {
-    Write-Host "Instalando/Atualizando os drivers... " -ForegroundColor Green
-    Write-Host "Em desenvolvimento..." - ForegroundColor Green
+
+function Instalar_Drivers { # Função para instalar drivers
+    param (
+        [string]$DiretorioDrivers = "C:\Drivers"
+    )
+    try {
+        Write-Host "Instalando drivers do diretório $DiretorioDrivers..." -ForegroundColor Cyan
+        pnputil /add-driver "$DiretorioDrivers\*.inf" /install
+        Write-Host "Instalação de drivers concluída com sucesso." -ForegroundColor Green
+    } catch {
+        Write-Host "Erro ao instalar drivers: $_" -ForegroundColor Red
+    }
+    Pause  
 }
 function Exibir_Menu {
     preparar_ambiente # Chama a função preparar_hambiente no início do script
