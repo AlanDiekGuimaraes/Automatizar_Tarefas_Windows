@@ -273,19 +273,72 @@ function Atualizar_Drivers_Programas { # Função para atualizar drivers e progr
     Pause 
 }
 
-function Instalar_Drivers { # Função para instalar drivers
-    param (
-        [string]$DiretorioDrivers = "C:\Drivers"
-    )
+# function Instalar_Drivers { # Em desenvovimento. 
+    # Função para instalar drivers
+    # Write-Host "Iniciando a verificação e instalação de drivers..." -ForegroundColor Green
+    # try {
+    #     # Define o caminho do arquivo na mesma pasta do script
+    # $caminhoArquivo = Join-Path -Path $PSScriptRoot -ChildPath "drivers_info.txt"
+    # }
+    # catch {
+    #     Write-Host "O arquivo não foi encontrado." -ForegroundColor Red
+    # }
+    
+    # Pause
+    
+# }
+
+function Instalar_Drivers {
     try {
-        Write-Host "Instalando drivers do diretório $DiretorioDrivers..." -ForegroundColor Cyan
-        pnputil /add-driver "$DiretorioDrivers\*.inf" /install
-        Write-Host "Instalação de drivers concluída com sucesso." -ForegroundColor Green
+        # Verifica se o módulo PSWindowsUpdate está instalado
+        if (-not (Get-Module -ListAvailable -Name PSWindowsUpdate)) {
+            Write-Host "Instalando módulo PSWindowsUpdate..."
+            Install-Module -Name PSWindowsUpdate -Force -Scope CurrentUser
+        }
+
+        Import-Module PSWindowsUpdate
+
+        # Verifica se há atualizações disponíveis para os drivers
+        Write-Host "Verificando atualizações de drivers disponíveis..."
+        $UpdateSession = New-Object -ComObject Microsoft.Update.Session
+        $UpdateSearcher = $UpdateSession.CreateUpdateSearcher()
+        $SearchResult = $UpdateSearcher.Search("Type='Driver'")
+
+        if ($SearchResult.Updates.Count -eq 0) {
+            Write-Host "Nenhuma atualização de driver encontrada."
+            return
+        }
+
+        Write-Host "Atualizações de drivers encontradas: " $SearchResult.Updates.Count
+
+        # Instala as atualizações de drivers encontradas
+        foreach ($Update in $SearchResult.Updates) {
+            try {
+                Write-Host "Instalando driver: " $Update.Title
+                $UpdateInstaller = $UpdateSession.CreateUpdateInstaller()
+                $UpdateInstaller.Updates = New-Object -ComObject Microsoft.Update.UpdateColl
+                $UpdateInstaller.Updates.Add($Update) | Out-Null
+                $Result = $UpdateInstaller.Install()
+
+                if ($Result.ResultCode -eq 2) {
+                    Write-Host "Driver instalado com sucesso: " $Update.Title
+                } else {
+                    Write-Host "Falha ao instalar driver: " $Update.Title
+                }
+            } catch {
+                Write-Host "Erro ao tentar instalar o driver: $($_.Exception.Message)"
+            }
+        }
     } catch {
-        Write-Host "Erro ao instalar drivers: $_" -ForegroundColor Red
+        Write-Host "Erro durante o processo de atualização: $($_.Exception.Message)"
     }
-    Pause  
+    pause
 }
+
+# Instalar_Drivers
+
+
+
 function Exibir_Menu {
     preparar_ambiente # Chama a função preparar_hambiente no início do script
     Abrir_com_Privilegios_de_Administrador # Chama a função para iniciar com privilegios de administrador.
