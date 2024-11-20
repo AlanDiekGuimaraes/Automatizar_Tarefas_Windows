@@ -8,7 +8,7 @@ Este projeto tem como objetivo simplificar a manutenção e configuração de si
 
 **Antes de rodar o script principal, siga os passos abaixo:**
 
-Execute o arquivo PowerShell_Sem_Restições.reg
+Execute o arquivo **PowerShell_Sem_Restições.reg**
 Este arquivo configura o sistema para  definir a política de execução como Unrestricted, garantindo que o script funcione corretamente.
 
 **Como executar:**
@@ -16,7 +16,7 @@ Clique duas vezes no arquivo PowerShell_Sem_Restições.reg.
 Confirme as alterações no registro.
 
 ## 🚀 Funcionalidades Principais
-O script Automacao_Windows apresenta um menu interativo com as seguintes opções:
+O script **Automacao_Windows** apresenta um menu interativo com as seguintes opções:
 
 **Instalar Programas**
 Realiza a instalação automatizada de um pacote de softwares essenciais.
@@ -30,7 +30,7 @@ Remove programas desnecessários que vêm pré-instalados no sistema operacional
 **Outros Ajustes no Sistema**
 Contém funcionalidades adicionais para otimizar o desempenho e personalizar o ambiente Windows.
 
-## Programas no Pacote 📦
+## 📦 Programas no Pacote 
 
 ### Instalação de Programas Essenciais
 #### Os seguintes softwares estão disponíveis para instalação no pacote:
@@ -86,21 +86,24 @@ Contém funcionalidades adicionais para otimizar o desempenho e personalizar o a
 
 ## 🖥️  Como Usar
 Após executar o arquivo .reg, abra o PowerShell como administrador.
-Navegue até o diretório onde está o script Automacao_Windows_V_0.1.ps1.
+Navegue até o diretório onde está o script **Automacao_Windows.ps1**.
 Execute o script com o comando:
 powershell
 Copiar código
-.\Automacao_Windows_V_0.1.ps1
+**.\Automacao_Windows.ps1**
 Siga as instruções no menu interativo.
-Importante: Sempre execute o script com permissões de administrador para evitar erros durante as operações.
+**Importante:** Sempre execute o script com permissões de administrador para evitar erros durante as operações.
 
 ## 🛠️ Estrutura do Script
 O código é organizado em funções para cada uma das tarefas, garantindo modularidade e facilidade de manutenção. Cada opção no menu chama uma função específica, como:
 
-Instalar_Programas_Essenciais: Gerencia a instalação de softwares.
-Atualizar_Drivers_Programas: Executa a verificação e atualização de drivers.
-Desinstalar_BLOATWARES: Remove aplicativos desnecessários.
-Programas_Formatação_Pessoal: Instala programas que sempre faço após miha formatação pessoal.
+**Instalar_Programas_Essenciais:** Gerencia a instalação de softwares.
+
+**Atualizar_Drivers_Programas:** Executa a verificação e atualização de drivers.
+
+**Desinstalar_BLOATWARES:** Remove aplicativos desnecessários.
+
+**Programas_Formatação_Pessoal:** Instala programas que sempre faço após miha formatação pessoal.
 Funções auxiliares para configurações adicionais.
 
 ## 📜 Licença
