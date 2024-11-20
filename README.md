@@ -8,12 +8,31 @@ Este projeto tem como objetivo simplificar a manutenção e configuração de si
 
 **Antes de rodar o script principal, siga os passos abaixo:**
 
-Execute o arquivo **PowerShell_Sem_Restições.reg**
-Este arquivo configura o sistema para  definir a política de execução como Unrestricted, garantindo que o script funcione corretamente.
+Antes de usar o script principal Automacao_Windows, é essencial configurar o sistema para evitar erros de execução. Para isso, utilize o arquivo Atualizar_PowerShell_e_Configurar_Politicas.cmd, o qual deve ser execultado como administrador.
+
+**O que este arquivo faz?**
+Atualiza o PowerShell para a versão mais recente usando o Winget.
+
+Configura a política de execução como Unrestricted, permitindo que scripts sejam executados sem restrições.
+
+Abre a Microsoft Store para instalar o aplicativo instalador de pacotes, caso ainda não esteja instalado.
+
+**Menu de opções**
+Ao executar o arquivo, você verá um menu com as seguintes opções:
+
+|**Opção**	|**Descrição**|
+|-----------|-------------|
+|[1]	    |Abre a Microsoft Store para instalar aplicativos.|
+|[2]	    |Atualiza o PowerShell para a versão mais recente usando o Winget.|
+|[3]	    |Adiciona as configurações necessárias no registro para garantir a execução correta dos scripts.|
+|[0]	    |Sai do menu.|
 
 **Como executar:**
-Clique duas vezes no arquivo PowerShell_Sem_Restições.reg.
-Confirme as alterações no registro.
+Clique duas vezes no arquivo Atualizar_PowerShell_e_Configurar_Politicas.cmd.
+No menu, selecione a opção [3] Adicionar registros do PowerShell.
+Aguarde a mensagem de sucesso confirmando que as configurações foram aplicadas.
+Observação: É recomendável selecionar a opção [2] Atualizar PowerShell via Winget antes de adicionar os registros, caso esteja utilizando uma versão antiga do PowerShell.
+
 
 ## 🚀 Funcionalidades Principais
 O script **Automacao_Windows** apresenta um menu interativo com as seguintes opções:
