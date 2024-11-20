@@ -7,7 +7,8 @@ Data de Criação: 11-11-2024
 Versão: 0.1
 PROJETO - https://github.com/AlanDiekGuimaraes/Automatizar_Tarefas_Windows
 Última Modificação e NOTAS DE LANÇAMENTO
-20-01-2024 - [Versão 0.1] - Organizando o código já criado para controle de versão.
+20-11-2024 - [Versão 0.0.1] - Organizando o código já criado para controle de versão.
+20-11-2024 - [Versão 0.0.2] - Ajustes na função Atualizar_Drivers_Programas para ficar com uma melhor visualização.
 
 #>
 
@@ -70,9 +71,9 @@ function Abrir_com_Privilegios_de_Administrador {
         Write-Host "Erro durante a execução com privilégios de administrador: $_" -ForegroundColor Red
     }
 }
-function Abrir_Instalador_Applicativos_Na_Loja {
-    start ms-windows-store://pdp/?productid=9nblggh4nns1
-}
+# function Abrir_Instalador_Applicativos_Na_Loja {
+#     start ms-windows-store://pdp/?productid=9nblggh4nns1
+# }
 function Desinstalar_BLOATWARES {   # Função para desinstalar BLOATWARES 
     
     # Define uma nova linha
@@ -133,83 +134,89 @@ function Desinstalar_BLOATWARES {   # Função para desinstalar BLOATWARES
     }
     Pause 
 }
-function Atualizar_Drivers_Programas { # Função para atualizar drivers e programas
+
+function Atualizar_Drivers_Programas {
     try {
-        Write-Host "Iniciando a atualização de programas..." -ForegroundColor Cyan
-        winget upgrade --all
-        Write-Host "Atualização de programas concluída com sucesso." -ForegroundColor Green
-    } catch {
-        Write-Host "Erro ao atualizar programas: $_" -ForegroundColor Red
-    }
+        Write-Host "Iniciando a atualização de drivers e programas..." -ForegroundColor Cyan
 
-    try {
-        # Verifica se o módulo PSWindowsUpdate está instalado
-        if (-not (Get-Module -ListAvailable -Name PSWindowsUpdate)) {
-            Write-Host "Instalando módulo PSWindowsUpdate..."
-            Install-Module -Name PSWindowsUpdate -Force -Scope CurrentUser
+        # Passo 1: Atualização de programas com Winget
+        try {
+            Write-Host "Atualizando programas com Winget..." -ForegroundColor Cyan
+            $novaLinha = "`n"
+
+            $saidaWinget = winget upgrade --all | Out-String
+            if ($saidaWinget -match "No applicable upgrade found.") {
+                Write-Host "Nenhuma atualização de programa encontrada." -ForegroundColor Yellow
+            } else {
+                Write-Host "Programas atualizados com sucesso." -ForegroundColor Green
+                Write-Host $novaLinha
+            }
+        } catch {
+            Write-Host "Erro ao atualizar programas: $($_.Exception.Message)" -ForegroundColor Red
         }
 
-        Import-Module PSWindowsUpdate
+        # Passo 2: Atualização de drivers
+        try {
+            if (-not (Get-Module -ListAvailable -Name PSWindowsUpdate)) {
+                Write-Host "Instalando módulo PSWindowsUpdate..." -ForegroundColor Cyan
+                Install-Module -Name PSWindowsUpdate -Force -Scope CurrentUser
+            }
 
-        # Verifica se há atualizações disponíveis para os drivers
-        Write-Host "Verificando atualizações de drivers disponíveis..."
-        $UpdateSession = New-Object -ComObject Microsoft.Update.Session
+            Import-Module PSWindowsUpdate
 
-        if ($null -eq $UpdateSession) {
-            Write-Host "Erro ao criar o objeto Update Session." -ForegroundColor Red
-            return
-        }
+            Write-Host "Verificando atualizações de drivers disponíveis..." -ForegroundColor Cyan
 
-        $UpdateSearcher = $UpdateSession.CreateUpdateSearcher()
-        if ($null -eq $UpdateSearcher) {
-            Write-Host "Erro ao criar o objeto Update Searcher." -ForegroundColor Red
-            return
-        }
+            $UpdateSession = New-Object -ComObject Microsoft.Update.Session
+            $UpdateSearcher = $UpdateSession.CreateUpdateSearcher()
+            $SearchResult = $UpdateSearcher.Search("Type='Driver'")
 
-        $SearchResult = $UpdateSearcher.Search("Type='Driver'")
+            if ($SearchResult.Updates.Count -eq 0) {
+                Write-Host "Nenhuma atualização de driver encontrada." -ForegroundColor Yellow
+            } else {
+                Write-Host "Atualizações de drivers encontradas: $($SearchResult.Updates.Count)" -ForegroundColor Green
+                $novaLinha = "`n"
 
-        if ($null -eq $SearchResult) {
-            Write-Host "Erro ao buscar atualizações." -ForegroundColor Red
-            return
-        }
+                $drivers = @()
+                foreach ($Update in $SearchResult.Updates) {
+                    $drivers += @{
+                        Nome = $Update.Title
+                        Objeto = $Update
+                    }
+                }
 
-        if ($SearchResult.Updates.Count -eq 0) {
-            Write-Host "Nenhuma atualização de driver encontrada." -ForegroundColor Yellow
-            pause
-            return
-        }
+                $totalDrivers = $drivers.Count
+                for ($i = 0; $i -lt $totalDrivers; $i++) {
+                    $driverAtual = $drivers[$i]
+                    $contador = "{0:000}/{1:000}" -f ($i + 1), $totalDrivers
 
-        Write-Host "Atualizações de drivers encontradas: $($SearchResult.Updates.Count)"
+                    Write-Host ("$contador - Instalando driver: $($driverAtual.Nome)".ToUpper()) -ForegroundColor Cyan
 
-        # Cria uma coleção de atualizações uma vez
-        $UpdateColl = New-Object -ComObject Microsoft.Update.UpdateColl
+                    $UpdateInstaller = $UpdateSession.CreateUpdateInstaller()
+                    $UpdateInstaller.Updates = New-Object -ComObject Microsoft.Update.UpdateColl
+                    $UpdateInstaller.Updates.Add($driverAtual.Objeto) | Out-Null
+                    $Result = $UpdateInstaller.Install()
 
-        # Adiciona atualizações à coleção
-        foreach ($Update in $SearchResult.Updates) {
-            Write-Host "Preparando para instalar driver: $($Update.Title)"
-            $UpdateColl.Add($Update) | Out-Null
-        }
+                    if ($Result.ResultCode -eq 2) {
+                        Write-Host "Driver instalado com sucesso: $($driverAtual.Nome)" -ForegroundColor Green
+                    } else {
+                        Write-Host "Falha ao instalar o driver: $($driverAtual.Nome)" -ForegroundColor Red
+                    }
 
-        # Instala todas as atualizações de uma vez
-        if ($UpdateColl.Count -gt 0) {
-            $UpdateInstaller = $UpdateSession.CreateUpdateInstaller()
-            $UpdateInstaller.Updates = $UpdateColl
-            $Result = $UpdateInstaller.Install()
-
-            foreach ($i in 0..($UpdateColl.Count - 1)) {
-                $Update = $UpdateColl.Item($i)
-                if ($Result.ResultCode -eq 2) {
-                    Write-Host "Driver instalado com sucesso: $($Update.Title)"
-                } else {
-                    Write-Host "Falha ao instalar driver: $($Update.Title)" -ForegroundColor Red
+                    Write-Host $novaLinha
                 }
             }
+        } catch {
+            Write-Host "Erro durante a atualização de drivers: $($_.Exception.Message)" -ForegroundColor Red
         }
+
+        Write-Host "Atualização de drivers e programas concluída." -ForegroundColor Green
     } catch {
-        Write-Host "Erro durante o processo de atualização: $($_.Exception.Message)" -ForegroundColor Red
+        Write-Host "Erro geral: $($_.Exception.Message)" -ForegroundColor Red
+    } finally {
+        # Garante que o pause seja executado no final
+        Write-Host "Processo finalizado. Pressione qualquer tecla para continuar..." -ForegroundColor Cyan
         pause
     }
-    pause
 }
 function Instalar_Aplicativos_Essenciais {      # Função para instalar aplicativos essenciais
     
@@ -217,9 +224,8 @@ function Instalar_Aplicativos_Essenciais {      # Função para instalar aplicat
    
     $aplicativosEssenciais = @(
         # APLICATIVOS ESSENCIAIS A SEREM INSTALADOS
-        @{ Nome = "Calculadora"; Comando = "winget install calculator --accept-package-agreements --accept-source-agreements --silent" },
-        @{ Nome = "PowerShell"; Comando = "winget install Microsoft.PowerShell --accept-package-agreements --accept-source-agreements --silent" },
         @{ Nome = "PowerToys"; Comando = "winget install Microsoft.PowerToys --accept-package-agreements --accept-source-agreements --silent" },
+        @{ Nome = ".NET Framework 4.8"; Comando = "winget install Microsoft.DotNet.Framework.DeveloperPack_4 --accept-package-agreements --accept-source-agreements --silent" },
         @{ Nome = "Microsoft Visual C++ 2005 x64"; Comando = "winget install Microsoft.VCRedist.2005.x64 --accept-package-agreements --accept-source-agreements --silent" },
         @{ Nome = "Microsoft Visual C++ 2005 x86"; Comando = "winget install Microsoft.VCRedist.2005.x86 --accept-package-agreements --accept-source-agreements --silent" },
         @{ Nome = "Microsoft Visual C++ 2008 x64"; Comando = "winget install Microsoft.VCRedist.2008.x64 --accept-package-agreements --accept-source-agreements --silent" },
@@ -233,7 +239,8 @@ function Instalar_Aplicativos_Essenciais {      # Função para instalar aplicat
         @{ Nome = "Microsoft Visual C++ 2015-2022 x64"; Comando = "winget install Microsoft.VCRedist.2015+.x64 --accept-package-agreements --accept-source-agreements --silent" },
         @{ Nome = "Microsoft Visual C++ 2015-2022 x86"; Comando = "winget install Microsoft.VCRedist.2015+.x86 --accept-package-agreements --accept-source-agreements --silent" },
         @{ Nome = "Java Runtime Environment"; Comando = "winget install Oracle.JavaRuntimeEnvironment --accept-package-agreements --accept-source-agreements --silent" },
-        @{ Nome = ".NET Framework 4.8"; Comando = "winget install Microsoft.DotNet.Framework.DeveloperPack_4 --accept-package-agreements --accept-source-agreements --silent" },
+        @{ Nome = "Calculadora"; Comando = "winget install calculator --accept-package-agreements --accept-source-agreements --silent" },
+        @{ Nome = "PowerShell"; Comando = "winget install Microsoft.PowerShell --accept-package-agreements --accept-source-agreements --silent" },
         @{ Nome = "DirectX End-User Runtime Web"; Comando = "winget install Microsoft.DirectX --accept-package-agreements --accept-source-agreements --silent" }
     )
 
@@ -350,14 +357,14 @@ function Exibir_Menu {
     # Cria uma lista de opções com chaves numéricas simples
     $menuOpcoes = @{
         0 = "Sair"
-        1 = "Abrir Instalador de Aplicativo"
+        1 = "Reiniciar e entrar no BIOS"
         2 = "Desinstalar Bloatwares"
         3 = "Atualizar Drivers|Programas" 
         4 = "Instalar Aplicativos Essenciais"
         5 = "Instalar Programas Essenciais"
         6 = "Programas: Formatação pessoal"
         7 = "Instalar Visualizador de Fotos W7"
-        8 = "Reiniciar e entrar no BIOS"
+        
         
         
     }
@@ -416,14 +423,14 @@ function Exibir_Menu {
             # Executa a função associada à opção escolhida
             switch ($opcaoEscolhida) {
                 0 { Write-Host "Saindo..." -ForegroundColor Green; break }
-                1 { Abrir_Instalador_Applicativos_Na_Loja }
+                1 { Reiniciar_Computador_e_Entrar_Bios}
                 2 { Desinstalar_BLOATWARES }
                 3 { Atualizar_Drivers_Programas }
                 4 { Instalar_Aplicativos_Essenciais }
                 5 { Instalar_Programas_Essenciais }
                 6 { Programas_Formatação_Pessoal }
                 7 { Habilitar_Visualizador_Fotos_Windows7 }                
-                8 { Reiniciar_Computador_e_Entrar_Bios}
+                
                 default { Write-Host "Função não definida para essa opção." -ForegroundColor Red }
             }
         } else {
