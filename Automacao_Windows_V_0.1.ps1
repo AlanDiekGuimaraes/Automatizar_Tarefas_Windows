@@ -116,7 +116,7 @@ function Desinstalar_BLOATWARES {   # Função para desinstalar BLOATWARES
         @{ Nome = "Mapas do Windows"; Comando = "winget uninstall microsoft.WindowsMaps_8wekyb3d8bbwe --accept-source-agreements --silent" },
         @{ Nome = "Microsoft Office Hub"; Comando = "winget uninstall Microsoft.MicrosoftOfficeHub_8wekyb3d8bbwe --accept-source-agreements --silent" },
         @{ Nome = "Groove Music"; Comando = "winget uninstall Microsoft.ZuneMusic_8wekyb3d8bbwe --accept-source-agreements --silent" },
-        # @{ Nome = "Copilot"; Comando = "winget uninstall MSIX\Microsoft.Copilot_1.1.8.0_neutral__8wekyb3d8bbwe --accept-source-agreements --silent" },
+        @{ Nome = "Copilot"; Comando = "winget uninstall MSIX\Microsoft.Copilot_1.1.8.0_neutral__8wekyb3d8bbwe --accept-source-agreements --silent" },
         @{ Nome = "Paint"; Comando = "winget uninstall MSIX\Microsoft.Paint_11.2408.30.0_x64__8wekyb3d8bbwe --accept-source-agreements --silent" }
         @{ Nome = "Microsoft Teams classic"; Comando = "winget uninstall Microsoft.Teams.Classic --accept-source-agreements --silent" }
         # @{ Nome = ""; Comando = "winget uninstall --accept-package-agreements --accept-source-agreements --silent" },
