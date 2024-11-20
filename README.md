@@ -8,9 +8,12 @@ Este projeto tem como objetivo simplificar a manutenção e configuração de si
 
 **Antes de rodar o script principal, siga os passos abaixo:**
 
-Antes de usar o script principal Automacao_Windows, é essencial configurar o sistema para evitar erros de execução. Para isso, utilize o arquivo Atualizar_PowerShell_e_Configurar_Politicas.cmd, o qual deve ser execultado como administrador.
+Antes de usar o script principal Automacao_Windows, é essencial configurar o sistema para evitar erros de execução. 
+
+Para isso, utilize o arquivo Atualizar_PowerShell_e_Configurar_Politicas.cmd, o qual deve ser execultado como administrador.
 
 **O que este arquivo faz?**
+
 Atualiza o PowerShell para a versão mais recente usando o Winget.
 
 Configura a política de execução como Unrestricted, permitindo que scripts sejam executados sem restrições.
@@ -28,9 +31,13 @@ Ao executar o arquivo, você verá um menu com as seguintes opções:
 |[0]	    |Sai do menu.|
 
 **Como executar:**
+
 Clique duas vezes no arquivo Atualizar_PowerShell_e_Configurar_Politicas.cmd.
+
 No menu, selecione a opção [3] Adicionar registros do PowerShell.
+
 Aguarde a mensagem de sucesso confirmando que as configurações foram aplicadas.
+
 Observação: É recomendável selecionar a opção [2] Atualizar PowerShell via Winget antes de adicionar os registros, caso esteja utilizando uma versão antiga do PowerShell.
 
 
@@ -104,13 +111,14 @@ Contém funcionalidades adicionais para otimizar o desempenho e personalizar o a
 
 
 ## 🖥️  Como Usar
-Após executar o arquivo .reg, abra o PowerShell como administrador.
+Após executar o arquivo .cmd, abra o PowerShell como administrador.
+
 Navegue até o diretório onde está o script **Automacao_Windows.ps1**.
-Execute o script com o comando:
-powershell
-Copiar código
-**.\Automacao_Windows.ps1**
+
+Execute o script e escolha suas opções desejadas.
+
 Siga as instruções no menu interativo.
+
 **Importante:** Sempre execute o script com permissões de administrador para evitar erros durante as operações.
 
 ## 🛠️ Estrutura do Script
@@ -123,6 +131,7 @@ O código é organizado em funções para cada uma das tarefas, garantindo modul
 **Desinstalar_BLOATWARES:** Remove aplicativos desnecessários.
 
 **Programas_Formatação_Pessoal:** Instala programas que sempre faço após miha formatação pessoal.
+
 Funções auxiliares para configurações adicionais.
 
 ## 📜 Licença
