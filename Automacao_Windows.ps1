@@ -71,9 +71,11 @@ function Abrir_com_Privilegios_de_Administrador {
         Write-Host "Erro durante a execução com privilégios de administrador: $_" -ForegroundColor Red
     }
 }
+
 # function Abrir_Instalador_Applicativos_Na_Loja {
 #     start ms-windows-store://pdp/?productid=9nblggh4nns1
 # }
+
 function Desinstalar_BLOATWARES {   # Função para desinstalar BLOATWARES 
     
     # Define uma nova linha
@@ -364,6 +366,8 @@ function Exibir_Menu {
         5 = "Instalar Programas Essenciais"
         6 = "Programas: Formatação pessoal"
         7 = "Instalar Visualizador de Fotos W7"
+        8 = "Politica de Privacidade Restrita"
+        9 = "Politica de Privacidade Inrestrita"
         
         
         
@@ -429,7 +433,9 @@ function Exibir_Menu {
                 4 { Instalar_Aplicativos_Essenciais }
                 5 { Instalar_Programas_Essenciais }
                 6 { Programas_Formatação_Pessoal }
-                7 { Habilitar_Visualizador_Fotos_Windows7 }                
+                7 { Habilitar_Visualizador_Fotos_Windows7 }
+                8 { Politicas_Com_Restricao }
+                9 { Politicas_Sem_Restricao }              
                 
                 default { Write-Host "Função não definida para essa opção." -ForegroundColor Red }
             }

@@ -6,43 +6,20 @@ Este projeto tem como objetivo simplificar a manutenção e configuração de si
 
 ### Pré-requisitos
 
-**Antes de rodar o script principal, siga os passos abaixo:**
+**Antes de rodar o script principal, temos que configurar as politicas como Unrestricted, para isso rode os seguintes comandos como administrador, um de cada vez:**
 
-Antes de usar o script principal Automacao_Windows, é essencial configurar o sistema para evitar erros de execução. 
+**Altere a política para o escopo CurrentUser**
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Unrestricted -Force
 
-Para isso, utilize o arquivo Atualizar_PowerShell_e_Configurar_Politicas.cmd, o qual deve ser execultado como administrador.
+**Altere a política para o escopo LocalMachine**
+Set-ExecutionPolicy -Scope LocalMachine -ExecutionPolicy Unrestricted -Force
 
-**O que este arquivo faz?**
-
-Atualiza o PowerShell para a versão mais recente usando o Winget.
-
-Configura a política de execução como Unrestricted, permitindo que scripts sejam executados sem restrições.
-
-Abre a Microsoft Store para instalar o aplicativo instalador de pacotes, caso ainda não esteja instalado.
-
-**Menu de opções**
-Ao executar o arquivo, você verá um menu com as seguintes opções:
-
-|**Opção**	|**Descrição**|
-|-----------|-------------|
-|[1]	    |Abre a Microsoft Store para instalar aplicativos.|
-|[2]	    |Atualiza o PowerShell para a versão mais recente usando o Winget.|
-|[3]	    |Adiciona as configurações necessárias no registro para garantir a execução correta dos scripts.|
-|[0]	    |Sai do menu.|
-
-**Como executar:**
-
-Clique duas vezes no arquivo Atualizar_PowerShell_e_Configurar_Politicas.cmd.
-
-No menu, selecione a opção [3] Adicionar registros do PowerShell.
-
-Aguarde a mensagem de sucesso confirmando que as configurações foram aplicadas.
-
-Observação: É recomendável selecionar a opção [2] Atualizar PowerShell via Winget antes de adicionar os registros, caso esteja utilizando uma versão antiga do PowerShell.
+**Altere a política para o escopo Process**
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Unrestricted -Force
 
 
 ## 🚀 Funcionalidades Principais
-O script **Automacao_Windows** apresenta um menu interativo com as seguintes opções:
+O script **Automacao_Windows.ps1** apresenta um menu interativo com as seguintes opções:
 
 **Instalar Programas**
 Realiza a instalação automatizada de um pacote de softwares essenciais.
