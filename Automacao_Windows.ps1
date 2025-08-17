@@ -352,6 +352,41 @@ function Reiniciar_Computador_e_Entrar_Bios {
     shutdown /r /fw /t 0
 }
 
+function Ativar_Internet_Download_Manager_IDM {
+    iex(irm is.gd/idm_reset) # Ativar o internet Download Manager IDM Disponivel em https://github.com/lstprjct/IDM-Activation-Script
+    Pause 
+}
+function Ativar_Windows_Office {
+    #Ativa o Windows e Office Disponiveis em https://github.com/massgravel/Microsoft-Activation-Scripts
+    $ativacaoBemSucedida = $false
+    try {
+        Write-Host "Ativando o Windows Office..."
+        irm https://get.activated.win | iex # Tenta a primeira opção
+        $ativacaoBemSucedida = $true
+    } catch {
+        Write-Host "Ocorreu um erro ao ativar o Windows Office na opção 1."
+    }
+
+    if (-not $ativacaoBemSucedida) {
+        try {
+            Write-Host "Tentando novamente: Ativando o Windows Office na opção 2..."
+            irm https://massgrave.dev/get | iex # Tenta a segunda opção
+        } catch {
+            Write-Host "Ocorreu um erro ao ativar o Windows Office na opção 2."
+        }
+    } else {
+        Write-Host "Ativação concluída com sucesso na primeira tentativa."
+    }
+    Pause 
+}
+function Ativar_Winrar {
+    try { #  Ativa o WinRAR com o script disponivel em https://github.com/naeembolchhi/WinRAR-Activator
+        Write-Host "Ativando o WinRAR..." 
+        iwr -useb https://naeembolchhi.github.io/WinRAR-Activator/WRA.ps1 | iex
+    } catch { Write-Host "Ocorreu um erro ao ativar o WinRAR." }
+    Pause 
+}
+
 function Exibir_Menu {
     preparar_ambiente # Chama a função preparar_hambiente no início do script
     Abrir_com_Privilegios_de_Administrador # Chama a função para iniciar com privilegios de administrador.
@@ -368,6 +403,9 @@ function Exibir_Menu {
         7 = "Instalar Visualizador de Fotos W7"
         8 = "Politica de Privacidade Restrita"
         9 = "Politica de Privacidade Inrestrita"
+        10 = "Ativar IDM"
+        11 = "Ativar WinRAR"
+        12 = "Ativar Windows e Office"
         
         
         
@@ -435,7 +473,10 @@ function Exibir_Menu {
                 6 { Programas_Formatação_Pessoal }
                 7 { Habilitar_Visualizador_Fotos_Windows7 }
                 8 { Politicas_Com_Restricao }
-                9 { Politicas_Sem_Restricao }              
+                9 { Politicas_Sem_Restricao }
+                10 { Ativar_Internet_Download_Manager_IDM }    
+                11 { Ativar_Winrar }     
+                12 { Ativar_Windows_Office }     
                 
                 default { Write-Host "Função não definida para essa opção." -ForegroundColor Red }
             }
